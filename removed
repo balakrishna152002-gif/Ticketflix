@@ -1,0 +1,592 @@
+ $name=$_POST['movie_name'];
+  $date=$_POST['releasedate'];
+  $duration=$_POST['duration_h'];
+  $duration_m=$_POST['duration_m'];
+  $rating=$_POST['censor_rating'];
+  $targetDir = "movies/";
+$fileName = basename($_FILES["file"]["name"]);
+$targetFilePath = $targetDir . $fileName;
+$fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+
+
+if(isset($_POST["insert"]) && !empty($_FILES["file"]["tmp_name"])){
+  // Allow certain file formats
+  $allowTypes = array('jpg','png','jpeg','gif','pdf');    //already done in Form
+
+  $sql="select*from movies where name='$name'";
+  $result=mysqli_query($conn,$sql);
+      $rowcount=mysqli_num_rows($result);
+      if($rowcount>0){
+          echo"Movie Inserted ";}
+          else{
+
+
+  if(in_array($fileType, $allowTypes)){
+      // Upload file to server
+
+     
+      if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
+          // Insert image file name into database
+          $insert = $conn->query("insert into movies(name,release_date,duration_h,duration_m,censor_rating,fname) values ('$name','$date','$duration','$duration_m','$rating','$filename')");
+          
+          if($insert){
+              $statusMsg = "The file ".$fileName. " has been uploaded successfully.";
+          }else{
+              $statusMsg = "File upload failed, please try again.";
+          } 
+      }else{
+          $statusMsg = "Sorry, there was an error uploading your file.";
+      }
+                
+  }else{
+      $statusMsg = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+  }}
+}else{
+  $statusMsg = 'Please select a file to upload.';
+  echo $statusMsg;
+}
+
+
+
+
+
+
+$row['duration_h']. $row['duration_m']
+
+
+
+
+
+
+
+
+
+
+Theatre.php
+
+
+
+<?php
+include "db.php";
+$sql = "SELECT * FROM movies ";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $result->num_rows; ?><br><?php
+                                                                while ($row = $result->fetch_assoc()) {
+                                                                    $sql = "select name,release_date from movies";
+                                                                    $mname = $row['name'];
+                                                                    $imageURL = 'movies/' . $row['fname'];
+
+
+
+                                                                    
+                                                                    
+                                                                ?><br>
+        <img src="<?php echo $imageURL; ?>" alt=""><br><br>
+    <?php
+echo "Name :".$mname;?><br><br>
+<?php
+echo "Duration :".$row['duration_h' ]." : ";
+echo $row['duration_m'];?><br>
+<?php
+
+                                                                }
+                                                            } else { ?>
+    <p>No Movies found...</p>
+<?php
+                                                            }
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+error_reporting(0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>Password must contain the following:</h3>
+                <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                <p id="number" class="invalid">A <b>number</b></p>
+                <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+
+
+                <script>
+                    var myInput = document.getElementById("psw");
+                    var letter = document.getElementById("letter");
+                    var capital = document.getElementById("capital");
+                    var number = document.getElementById("number");
+                    var length = document.getElementById("length");
+
+                    // When the user clicks on the password field, show the message box
+                    myInput.onfocus = function() {
+                        document.getElementById("message").style.display = "block";
+                    }
+
+                    // When the user clicks outside of the password field, hide the message box
+                    myInput.onblur = function() {
+                        document.getElementById("message").style.display = "none";
+                    }
+
+                    // When the user starts to type something inside the password field
+                    myInput.onkeyup = function() {
+                        // Validate lowercase letters
+                        var lowerCaseLetters = /[a-z]/g;
+                        if (myInput.value.match(lowerCaseLetters)) {
+                            letter.classList.remove("invalid");
+                            letter.classList.add("valid");
+                        } else {
+                            letter.classList.remove("valid");
+                            letter.classList.add("invalid");
+                        }
+
+                        // Validate capital letters
+                        var upperCaseLetters = /[A-Z]/g;
+                        if (myInput.value.match(upperCaseLetters)) {
+                            capital.classList.remove("invalid");
+                            capital.classList.add("valid");
+                        } else {
+                            capital.classList.remove("valid");
+                            capital.classList.add("invalid");
+                        }
+
+                        // Validate numbers
+                        var numbers = /[0-9]/g;
+                        if (myInput.value.match(numbers)) {
+                            number.classList.remove("invalid");
+                            number.classList.add("valid");
+                        } else {
+                            number.classList.remove("valid");
+                            number.classList.add("invalid");
+                        }
+
+                        // Validate length
+                        if (myInput.value.length >= 8) {
+                            length.classList.remove("invalid");
+                            length.classList.add("valid");
+                        } else {
+                            length.classList.remove("valid");
+                            length.classList.add("invalid");
+                        }
+                    }
+                </script>
+
+
+
+input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+        }
+
+        /* Style the submit button */
+        input[type=submit] {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+
+
+        /* The message box is shown when the user clicks on the password field */
+        #message {
+            display: none;
+            background: #f1f1f1;
+            color: #000;
+            position: relative;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        #message p {
+            padding: 10px 35px;
+            font-size: 18px;
+        }
+
+        /* Add a green text color and a checkmark when the requirements are right */
+        .valid {
+            color: green;
+        }
+
+        .valid:before {
+            position: relative;
+            left: -35px;
+            content: "✔";
+        }
+
+        /* Add a red text color and an "x" when the requirements are wrong */
+        .invalid {
+            color: red;
+        }
+
+        .invalid:before {
+            position: relative;
+            left: -35px;
+            content: "✖";
+        }
+        .col-lg-8{
+            position:absolute;
+        }
+
+
+
+
+
+        if ($row['type'] == 1) {
+                                    
+                                    $_SESSION['username'] = $email;
+                                    header("location: admin.php");
+                                }
+                                if ($row['type'] == 3) {
+    
+                                    $_SESSION['username'] = $email;
+                                    header("location: welcome.php");
+                                }
+    
+                                if ($row['type'] == 2) {
+    
+                                    $_SESSION['username'] = $email;
+                                    header("location: theatre.php");
+                                } else {
+                                    echo "Wrong username./password combination";
+                                }
+
+
+
+
+
+
+
+
+
+
+
+                                <div class="btn-group">
+        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Choose Location :
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Pathanamthitta </a>
+          <a class="dropdown-item" href="#">Location2 </a>
+          <a class="dropdown-item" href="#">Location 3</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Separated link</a>
+        </div>
+      </div>
+
+
+
+
+
+
+
+      <?php
+$check1 = 0;
+$check2 = 0;
+$check3 = 0;
+$check4 = 0;
+if (isset($_POST['check1'])) {
+    $check1 = 1;
+}
+if (isset($_POST['check2'])) {
+    $check2 = 1;
+}
+if (isset($_POST['check3'])) {
+    $check3 = 1;
+}
+if (isset($_POST['check4'])) {
+    $check4 = 1;
+}
+
+$name = $_POST['movie_name'];
+$release = $_POST['release_date'];
+$screen = $_POST['screen'];
+$mail = $_SESSION['theatre'];
+$sql = "select tid from theatre where email='$mail'";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$tid = $row['tid'];
+$a = 1;
+
+
+$sql = "select m_id from movies where name='$name'";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$mid = $row['m_id'];
+if (isset($_POST['insert'])) {
+
+    $sql = "insert into current(mid,tid,screen,trelease,morning,noon,first,seccond)values('$mid','$tid','$screen','$release','$check1','$check2','$check3','$check4')";
+    $result = $conn->query($sql);
+    if ($result) {
+        echo "Success";
+
+    }
+    
+    else {
+        echo "failed";
+    }
+    
+}
+mysqli_close($conn);
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3 mt-3">
+                        <label>Enter Movie Name</label>
+                        <input type="text" class="form-control" id="Movie name" required placeholder="Enter Movie Name To Add To Theatre" name="movie_name">
+                    </div>
+                    <div class="mb-3">
+                        <label> Screen NO:</label>
+                        <input type="text" class="form-control" required placeholder="Screen No" name="screen">
+                        <?php
+                        include "db.php";
+                        $mail = $_SESSION['theatre'];
+                        $sql = "select*from theatre where email='$mail'";
+                        $result = $conn->query($sql);
+                        $row = $result->fetch_assoc();
+                        $tid = $row['tid'];
+
+                        if (isset($_POST['screen'])) {
+                            $no = $_POST['screen'];
+                            $sql = "select*from current";
+                            $result = $conn->query($sql);
+                            $row = $result->fetch_assoc();
+                            if ($row > 1) {
+
+                                $sql = "select*from current where tid='$tid'and screen=$no";
+                                $result = $conn->query($sql);
+                                $row = $result->fetch_assoc();
+                                $morning = $row['morning'];
+                                $noon = $row['noon'];
+                                $first = $row['first'];
+                                $seccond = $row['seccond'];
+                                $a = 1;
+                                if ($morning != $a) { ?>
+                                    <div class="mb-3">
+                                        <label> Show Timings</label>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="check1" value="option1">
+                                            <label class="form-check-label" for="inlineCheckbox1">11:30</label>
+                                        </div><?php
+                                            }
+                                            if ($noon != $a) { ?>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="check2" value="option2">
+                                            <label class="form-check-label" for="inlineCheckbox2">2.30</label>
+                                        </div><?php
+
+                                            }
+                                            if ($first != $a) { ?>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="check3" value="option3">
+                                            <label class="form-check-label" for="inlineCheckbox3">5.30</label>
+                                        </div><?php
+                                            }
+                                            if ($seccond != $a) { ?>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" name="check4" value="option3">
+                                            <label class="form-check-label" for="inlineCheckbox3">8.30</label>
+                                        </div><?php
+                                            } else {
+                                                echo "All Screens Filled";
+                                            }
+                                        } else { ?>
+                                    <label> Show Timings</label>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="check1" value="option1">
+                                        <label class="form-check-label" for="inlineCheckbox1">11:30</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="check2" value="option2">
+                                        <label class="form-check-label" for="inlineCheckbox2">2.30</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="check3" value="option3">
+                                        <label class="form-check-label" for="inlineCheckbox3">5.30</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="check4" value="option3">
+                                        <label class="form-check-label" for="inlineCheckbox3">8.30</label>
+                                    </div><?php
+
+
+                                        }
+                                    }
+                                            ?>
+
+
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                    <div class="mb-3">
+                                        <label> Release Planning</label>
+                                        <input type="date" class="form-control" id="release" required placeholder="When Is release planned" name="release_date">
+                                    </div>
+
+                                    <button name="insert" class="btn btn-primary">Submit</button>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="col-lg-2">
+                <div class="btn-group dropleft">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account
+                    </button>
+                    <div class="dropdown-menu">
+                        <button class="dropdown-item" type="button">View Bookings</button>
+                        <a href="logout.php">
+                            <button class="dropdown-item" type="button">Logout</button></a>
+                    </div>
+                </div>
+
+
+                if ($mid = $row['mid']) {
+                            $sql = "select*from current where tid='$tid' and mid='$mid'and screen='$screen'";
+                            $result = $conn->query($sql);
+                            $row = $result->fetch_assoc();
+                            if ($row > 0) {
+                                echo $mid;
+                                echo "Movie Already Inserted";
+                            } else {
+
+
+
+
+
+
+
+                                <?php
+          include "db.php";
+
+          $sql = "SELECT * FROM movies ";
+          $result = $conn->query($sql);
+
+          if ($result->num_rows > 0) {
+            $result->num_rows; ?><br><?php
+                                      while ($row = $result->fetch_assoc()) {
+                                        $sql = "select name,release_date from movies";
+                                        $mname = $row['name'];
+                                        $rating = $row['censor_rating'];
+                                        $imageURL = 'movies/' . $row['fname'];
+                                      ?>
+              <table class="table table-light">
+                <tr>
+                  <td><img style="height: 270px;" src="<?php echo $imageURL; ?>" alt=""></td>
+                </tr><br>
+        </div>
+        <div class="details">
+          <tr>
+            <td>
+              <?php
+                                        echo "Name :" . $mname; ?></td>
+          </tr><br><br>
+          <tr>
+            <td><?php
+                                        echo "Duration :" . $row['duration_h'] . "h : ";
+                                        echo $row['duration_m'] . "m "; ?><br><br></td>
+          </tr>
+        </div>
+        <tr>
+          <td>
+            <?php
+                                        echo "Rated :" . $rating; ?></td>
+        </tr><br><br>
+        </table> <?php
+
+
+                                      }
+                                    } else { ?>
+      <p>No Movies found...</p>
+    <?php
+                                    }
+
+    ?>                             
+
+
+
+
+ 
+<div class="date-selection">
+    
+    <input type="date" id="datepicker" name="date" min="" max="" required>
+    
+  </div>
+  <script>
+  // Calculate upcoming Friday
+  var currentDate = new Date();
+  var upcomingFriday = new Date();
+  upcomingFriday.setDate(currentDate.getDate() + (5 - currentDate.getDay() + 7) % 7); // Calculate next Friday
+  var formattedDate = upcomingFriday.toISOString().split('T')[0]; // Format the date as "YYYY-MM-DD"
+  var today = new Date();
+  var formattedToday = today.toISOString().split('T')[0]; // Format the date as "YYYY-MM-DD"
+  document.getElementById('datepicker').setAttribute('min', formattedToday);
+  // Set the maximum date for the input field
+  document.getElementById('datepicker').setAttribute('max', formattedDate);
+</script>
