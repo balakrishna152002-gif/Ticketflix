@@ -292,7 +292,7 @@ if (!isset($_SESSION['username'])) {
           }
           ?>
         </marquee>
-        <!-- Movies will be loaded dynamically here -->
+        <!-- Movies Will Be Loaded dynamically here -->
       </div>
     </div>
 
