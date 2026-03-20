@@ -130,7 +130,7 @@ if (!isset($_SESSION['admin'])) {
                 <h1>Manage Movies</h1>
                 <hr>
                 <a href="managemovies.php">
-                    <button type="button" class="btn btn-success">Add Or Delete Movie</button></a>
+                    <button type="button" class="btn btn-success">Add Or Remove Movies</button></a>
                 <br><br>
 
 
@@ -167,7 +167,7 @@ if (!isset($_SESSION['admin'])) {
 
                                                                                 }
                                                                             } else { ?>
-                    <p>No Movies found...</p>
+                    <p>No Movies Found...</p>
                 <?php
                                                                             }
 
@@ -182,15 +182,15 @@ if (!isset($_SESSION['admin'])) {
                 <div class="col-lg-12" id="main-div">
 
                     <a href="managetheatre.php">
-                        <button type="button" class="btn btn-info" style="padding-top:1%;">Add Or Delete theatre</button></a><br><br>
+                        <button type="button" class="btn btn-info" style="padding-top:1%;">Add Or Delete Theatre</button></a><br><br>
                     <hr>
 
-                    <h1>Raise a Requests</h1>
+                    <h1>Raise A Requests</h1>
                     <form method="post">
                         <input type="number" id="nore" name="nore" placeholder="Enter Request Number"><br><br>
                         <input type="text" id="ch" name="ch" placeholder="Enter Request Heading"><br><br>
                         <input type="text" id="re" name="re" placeholder="Enter Request"><br><br>
-                        <label for="theatre">Theatre:</label>
+                        <label for="theatre">Theatre: </label>
                         <input type="checkbox" id="theatre" name="theatre" value="1"><br>
                         <label for="plus">Plus:</label>
                         <input type="checkbox" id="plus" name="plus" value="1"><br>
@@ -228,7 +228,7 @@ if (!isset($_SESSION['admin'])) {
                     <hr>
                     <form method="post">
                         <input type="text" id="cs" name="dreid" placeholder="Enter Request Number to Delete "><br><br>
-                        <input type="submit" value="delete" name="redbtn" class="btn btn-danger">
+                        <input type="submit" value="Delete" name="redbtn" class="btn btn-danger">
                     </form><?php
                             $sql = "SELECT * FROM notes";
                             $result = $conn->query($sql);
@@ -255,7 +255,7 @@ if (!isset($_SESSION['admin'])) {
 
                         echo "</table>";
                     } else {
-                        echo "<p>No Requests found.</p>";
+                        echo "<p>No Requests Found.</p>";
                     }
 
 
