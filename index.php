@@ -243,7 +243,7 @@ if (isset($_SESSION['username'])) {
   <div class="container">
 
 
-    <h1>Welcome to Ticketflix</h1>
+    <h1>Welcome To Ticketflix</h1>
 
     <div class="profile-dropdown">
       <button class="profile-button">Login</button>
@@ -255,7 +255,7 @@ if (isset($_SESSION['username'])) {
 
     <div class="tab-content active" id="homeTab">
       <form>
-        <label>Choose Your Location:</label>
+        Select Your Location :</label>
         <select name="location" id="locationSelect">
           <option>Select City</option>
           <?php
